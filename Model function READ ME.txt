@@ -1,0 +1,58 @@
+cr.interval: Competing risks analysis of double-interval-censored data
+Description
+This function performs either parametric (exponential or Weibull) or flexible (using B-splines with penalization) competing risks hazards regression of double-interval-censored data
+
+Usage
+cr.interval(data=NULL,
+	covs=NULL,
+	method="exp",
+	start1=NULL,
+	start2=NULL,
+	k=10,
+	gam=c(10,10),
+	maxt=NULL,
+	maxit=30,
+	abstol=1e-4,
+	pred=FALSE)
+
+
+Arguments
+data
+The name of the dataset. The dataset should contain variables with the following names: "L0time" for the left interval boundary of the origin event (=0 for all infections), 
+	"R0time" for the time from the date of L0time to the date of detection of the origin event. "L1time" for the time from the date of L0time to the date of the visit before 
+	detection of the event of interest/competing event or the date of right-censoring. "R1time" for the time from the date of L0time to the date of detection of the event of 
+	interest/competing event or can be set equal to L1time in the case of right-censoring. If exact-time data is known, an interval can be made with width equivalent to 1 day
+	(or whatever the smallest unit of time is in the application - exact times create issues in the integration). A variable named "state" with values 1, 2 or 3 [1 = right-censored,
+	2 = event of interest occurred and 3 = competing event occurred). Lastly an indicator variable named "overlap" should be in the dataset to indicate whether or not the 
+	event of interest and the origin event had both occurred in the same interval.
+
+covs
+A named vector of covariates from your data, for example: covs=c("age","sex").
+
+method
+The specification of the baseline hazards, either "exp" - exponential model, "wei" - Weibull model or "bs" for the flexible model using B-splines.
+
+start1
+Starting values for the event of interest.
+
+start2
+Starting values for the competing event. If start1 and start2 are left unspecified for the flexible model, randomly generated start values will be used.
+
+k
+This is an option for the flexible models for the number of basis functions to be used for each of the event of interest or competing event.
+
+gam
+A vector of two starting log smoothing factor values to be used. The smoothing factor values range between exp(0) and exp(20). 10 is the default option.
+
+maxt
+For the baseline hazards plots in the event of no covariates or for predictions, the maximum time value for hazards/cumulative incidences to be estimated. If NULL, the 95th percentile
+	of the "R1time" values in the data will be used.
+
+maxit
+The maximum number of iterations for convergence of the parameters and smoothing factors in the flexible model.
+
+abstol
+The tolerance for convergence of the parameters and smoothing factors in the flexible model between iterations.
+
+pred
+Whether or not to generate predictions for all combinations of covariate values. Predictions and plots will always be generated when covariates are not specified.
