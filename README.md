@@ -7,4 +7,4 @@ Simulation function.R and simulation function_notuniform_start.R are the functio
 
 Malaria example.R is the R code used in the analysis of the malaria data.
 
-
+The simulation results for the simulation scenarios are contained in https://doi.org/10.6084/m9.figshare.20756668.v1
